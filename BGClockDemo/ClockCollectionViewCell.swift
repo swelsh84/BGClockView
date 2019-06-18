@@ -229,7 +229,7 @@ class ClockCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func updateClock()
+    @objc func updateClock()
     {
         self.setupClockForDay(self.dayClockView)
         self.setupClockForNight(self.nightClockView)

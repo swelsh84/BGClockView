@@ -117,26 +117,26 @@ class BGFlipTransition: BGTransitions {
     {
         switch self.timingCurve{
         case .easeIn:
-            return kCAMediaTimingFunctionEaseIn
+            return CAMediaTimingFunctionName.easeIn.rawValue
         case .easeInOut:
-            return kCAMediaTimingFunctionEaseIn
+            return CAMediaTimingFunctionName.easeInEaseOut.rawValue
         case .easeOut:
-            return kCAMediaTimingFunctionLinear
+            return CAMediaTimingFunctionName.easeOut.rawValue
         case .linear:
-            return kCAMediaTimingFunctionLinear
+            return CAMediaTimingFunctionName.linear.rawValue
         }
     }
     
     func timingCurveFunctionNameSecondHalf() -> String {
         switch self.timingCurve{
         case .easeOut:
-            return kCAMediaTimingFunctionEaseOut
+            return CAMediaTimingFunctionName.easeOut.rawValue
         case .easeInOut:
-            return kCAMediaTimingFunctionEaseOut
+            return CAMediaTimingFunctionName.easeInEaseOut.rawValue
         case .easeIn:
-            return kCAMediaTimingFunctionLinear
+            return CAMediaTimingFunctionName.easeIn.rawValue
         case .linear:
-            return kCAMediaTimingFunctionLinear
+            return CAMediaTimingFunctionName.linear.rawValue
         }
     }
     
@@ -499,7 +499,7 @@ class BGFlipTransition: BGTransitions {
         
         CATransaction.begin()
         CATransaction.setValue(dur, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock({
             self.flipStage = isFallingBack ? 0 : 1
             self.switchToStage(isFallingBack ? 0 : 1)
@@ -510,7 +510,7 @@ class BGFlipTransition: BGTransitions {
         var animation = CABasicAnimation(keyPath: rotationKey)
         animation.fromValue = 90.0 * factor * Double(fromProgress)
         animation.toValue = 90.0 * factor
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         layer?.add(animation, forKey: nil)
         layer?.transform = CATransform3DMakeRotation(90.0 * CGFloat(factor), vertical ? 1 : 0, vertical ? 0 : 1, 0)
@@ -518,7 +518,7 @@ class BGFlipTransition: BGTransitions {
         animation = CABasicAnimation(keyPath: "opacity")
         animation.fromValue = self.flippingPageShadowOpacity * fromProgress
         animation.toValue = self.flippingPageShadowOpacity
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         flippingShadow?.add(animation, forKey: nil)
         flippingShadow?.opacity = Float(self.flippingPageShadowOpacity)
@@ -540,7 +540,7 @@ class BGFlipTransition: BGTransitions {
             }
             let keyAnimation = CAKeyframeAnimation(keyPath: "opacity")
             keyAnimation.values = arrayOpacity
-            keyAnimation.fillMode = kCAFillModeForwards
+            keyAnimation.fillMode = CAMediaTimingFillMode.forwards
             keyAnimation.isRemovedOnCompletion = false
             coveredShadow?.add(keyAnimation, forKey: nil)
             coveredShadow?.opacity = Float(arrayOpacity.last!)
@@ -575,7 +575,7 @@ class BGFlipTransition: BGTransitions {
         
         CATransaction.begin()
         CATransaction.setValue(self.duration * 0.5, forKey: kCATransactionAnimationDuration)
-        CATransaction.setValue(CAMediaTimingFunction(name: self.timingCurveFunctionNameSecondHalf()), forKey: kCATransactionAnimationTimingFunction)
+        CATransaction.setValue(CAMediaTimingFunction(name: CAMediaTimingFunctionName(rawValue: self.timingCurveFunctionNameSecondHalf())), forKey: kCATransactionAnimationTimingFunction)
         CATransaction.setCompletionBlock({
             self.cleanupLayers()
             self.transitionDidComplete()
@@ -587,7 +587,7 @@ class BGFlipTransition: BGTransitions {
         var animation2 = CABasicAnimation(keyPath: rotationKey)
         animation2.fromValue = -90.0 * factor * Double(1-fromProgress)
         animation2.toValue = 0
-        animation2.fillMode = kCAFillModeForwards
+        animation2.fillMode = CAMediaTimingFillMode.forwards
         animation2.isRemovedOnCompletion = false
         layer?.add(animation2, forKey: nil)
         layer?.transform = CATransform3DIdentity
@@ -595,7 +595,7 @@ class BGFlipTransition: BGTransitions {
         animation2 = CABasicAnimation(keyPath: "opacity")
         animation2.fromValue = self.flippingPageShadowOpacity * (1 - fromProgress)
         animation2.toValue = 0
-        animation2.fillMode = kCAFillModeForwards
+        animation2.fillMode = CAMediaTimingFillMode.forwards
         animation2.isRemovedOnCompletion = false
         flippingShadow?.add(animation2, forKey: nil)
         flippingShadow?.opacity = Float(0)
@@ -617,7 +617,7 @@ class BGFlipTransition: BGTransitions {
             }
             let keyAnimation = CAKeyframeAnimation(keyPath: "opacity")
             keyAnimation.values = arrayOpacity
-            keyAnimation.fillMode = kCAFillModeForwards
+            keyAnimation.fillMode = CAMediaTimingFillMode.forwards
             keyAnimation.isRemovedOnCompletion = false
             coveredShadow?.add(keyAnimation, forKey: nil)
             coveredShadow?.opacity = Float(arrayOpacity.last!)

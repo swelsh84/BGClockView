@@ -30,10 +30,10 @@ class WebServiceManager: NSObject {
     
     override init(){
         super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(WebServiceManager.didBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(WebServiceManager.didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
-    func didBecomeActive()
+    @objc func didBecomeActive()
     {
         self.timer?.invalidate()
         self.startUpdatingWebServices()

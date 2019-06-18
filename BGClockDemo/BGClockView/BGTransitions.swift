@@ -23,11 +23,11 @@ class BGTransitions {
     var completionAction:BGTransitionAction
     var dismissing:Bool
     var rect:CGRect
-    var timingCurve:UIViewAnimationCurve
+    var timingCurve:UIView.AnimationCurve
     var m34:Float
     var presentedControllerIncludesStatusBarInFrame:Bool
     
-    init(sourceView:UIView,destinationView:UIView,duration:TimeInterval,timingCurve:UIViewAnimationCurve,completionAction:BGTransitionAction)
+    init(sourceView:UIView,destinationView:UIView,duration:TimeInterval,timingCurve:UIView.AnimationCurve,completionAction:BGTransitionAction)
     {
         self.sourceView = sourceView
         self.destinationView = destinationView
@@ -44,13 +44,13 @@ class BGTransitions {
     {
         switch self.timingCurve {
         case .easeOut:
-            return kCAMediaTimingFunctionEaseOut
+            return CAMediaTimingFunctionName.easeOut.rawValue
         case .easeIn:
-            return kCAMediaTimingFunctionEaseIn
+            return CAMediaTimingFunctionName.easeIn.rawValue
         case .easeInOut:
-            return kCAMediaTimingFunctionEaseInEaseOut
+            return CAMediaTimingFunctionName.easeInEaseOut.rawValue
         case .linear:
-            return kCAMediaTimingFunctionLinear
+            return CAMediaTimingFunctionName.linear.rawValue
         }
     }
     

@@ -536,7 +536,7 @@ class BGClockView: UIView {
     func start()
     {
         self.displayLink = CADisplayLink(target: self, selector: #selector(BGClockView.updateClock))
-        self.displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+        self.displayLink?.add(to: RunLoop.current, forMode: RunLoop.Mode.common)
     }
     
     /**
@@ -544,7 +544,7 @@ class BGClockView: UIView {
      */
     func stop()
     {
-        self.displayLink?.remove(from: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+        self.displayLink?.remove(from: RunLoop.current, forMode: RunLoop.Mode.default)
     }
     
     /**
@@ -615,7 +615,7 @@ class BGClockView: UIView {
             }
         }
         
-        self.dateLabel?.text = String(stringInterpolationSegment: day)
+        self.dateLabel?.text = String(day)
         
         if self.face == .chrono
         {
@@ -623,11 +623,11 @@ class BGClockView: UIView {
         }
         else
         {
-            self.dateLabel?.text = String(stringInterpolationSegment: day)
+            self.dateLabel?.text = String(day)
         }
     }
     
-    func updateClock()
+    @objc func updateClock()
     {
         var dateComponents:DateComponents
         if self.timeZoneNameString == nil
@@ -803,9 +803,9 @@ private class BGSimpleClockFaceView: BGClockFaceView
             let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
             let textFontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: fontColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: fontColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             
             let verticalBuffer = self.bounds.size.height*0.01
@@ -816,7 +816,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                 switch (360.0/12.0*CGFloat(index))/30.0{
                 case 1.0:
                     let numberString:NSString = "25"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0, y: 1.0*(percentLength*self.bounds.size.height+verticalBuffer)-numberSize.height)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -827,7 +827,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 2.0:
                     let numberString:NSString = "20"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0, y: 1.0*(percentLength*self.bounds.size.height+verticalBuffer)-numberSize.height)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -838,7 +838,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 4.0:
                     let numberString:NSString = "10"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0, y: -numberSize.height+verticalBuffer)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -849,7 +849,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 5.0:
                     let numberString:NSString = "05"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0, y: -numberSize.height+verticalBuffer)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -860,7 +860,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 7.0:
                     let numberString:NSString = "55"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: -numberSize.width+horizontalBuffer, y: -numberSize.height)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -871,7 +871,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 8.0:
                     let numberString:NSString = "50"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: -numberSize.width+verticalBuffer, y: -numberSize.height)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -882,7 +882,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 10.0:
                     let numberString:NSString = "40"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: -numberSize.width+verticalBuffer, y: -verticalBuffer)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -893,7 +893,7 @@ private class BGSimpleClockFaceView: BGClockFaceView
                     break
                 case 11.0:
                     let numberString:NSString = "35"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: -numberSize.width+verticalBuffer, y: -verticalBuffer)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -996,9 +996,9 @@ private class BGNormalClockFaceView: BGClockFaceView
             let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
             let textFontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: fontColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: fontColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             
             let verticalBuffer = self.bounds.size.height*0.01
@@ -1009,7 +1009,7 @@ private class BGNormalClockFaceView: BGClockFaceView
                 switch (360.0/12.0*CGFloat(index))/90.0{
                 case 0.0:
                     let numberString:NSString = "6"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0-numberSize.width*0.5, y: -1.0*(percentLength*self.bounds.size.height+verticalBuffer)-numberSize.height)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -1019,7 +1019,7 @@ private class BGNormalClockFaceView: BGClockFaceView
                     break
                 case 1.0:
                     let numberString:NSString = "3"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x:-1.0*(percentLength*self.bounds.size.width+horizontalBuffer)-numberSize.width , y:-numberSize.height*0.5 )
                     var rect = CGRect.zero
                     rect.origin = point
@@ -1029,7 +1029,7 @@ private class BGNormalClockFaceView: BGClockFaceView
                     break
                 case 2.0:
                     let numberString:NSString = "12"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x: 0.0-numberSize.width*0.5, y: percentLength*self.bounds.size.height+verticalBuffer)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -1039,7 +1039,7 @@ private class BGNormalClockFaceView: BGClockFaceView
                     break
                 case 3.0:
                     let numberString:NSString = "9"
-                    let numberSize = numberString.size(attributes: textFontAttributes)
+                    let numberSize = numberString.size(withAttributes: textFontAttributes)
                     let point = CGPoint(x:1.0*(percentLength*self.bounds.size.width+horizontalBuffer), y:0.0-numberSize.height*0.5)
                     var rect = CGRect.zero
                     rect.origin = point
@@ -1133,11 +1133,11 @@ private class BGUtilityClockFaceView: BGClockFaceView
             let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
             let textFontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: minuteTickColor,
-                NSParagraphStyleAttributeName: textStyle
-            ] as [String : Any]
-            let numberSize = "     ".size(attributes: textFontAttributes)
+                NSAttributedString.Key.font.rawValue: font,
+                NSAttributedString.Key.foregroundColor: minuteTickColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
+                ] as! [NSAttributedString.Key : Any]
+            let numberSize = "     ".size(withAttributes: textFontAttributes)
 
             if angle.truncatingRemainder(dividingBy: 30.0) == 0
             {
@@ -1254,13 +1254,13 @@ private class BGUtilityClockFaceView: BGClockFaceView
             
             let largeFont = self.faceFont!.withSize(self.bounds.size.height * percentFontSize*2.75)
             let largeTextFontAttributes = [
-                NSFontAttributeName: largeFont,
-                NSForegroundColorAttributeName: fontColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: largeFont,
+                NSAttributedString.Key.foregroundColor: fontColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             
             let angle = 360.0/12.0*CGFloat(index)
-            let largeNumberSize = "      ".size(attributes: largeTextFontAttributes)
+            let largeNumberSize = "      ".size(withAttributes: largeTextFontAttributes)
             if angle.truncatingRemainder(dividingBy: 30.0) == 0
             {
                 switch angle/30.0{
@@ -1512,14 +1512,14 @@ private class BGSquareClockFaceView: BGClockFaceView
         let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.center
         let textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: minuteTickColor,
-            NSParagraphStyleAttributeName: textStyle
-        ] as [String : Any]
+            NSAttributedString.Key.font.rawValue: font,
+            NSAttributedString.Key.foregroundColor: minuteTickColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
+            ] as! [NSAttributedString.Key : Any]
         
         let horizontalSpacing = self.frame.size.height * 0.35
         let verticalSpacing = self.frame.size.height * 0.15
-        let numberSize = "      ".size(attributes: textFontAttributes)
+        let numberSize = "      ".size(withAttributes: textFontAttributes)
         let verticalBuffer = self.frame.size.height * 0.03
         let horizontalBuffer = self.frame.size.height * -0.04
         
@@ -1592,9 +1592,9 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
         let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.center
         let textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: fontColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: fontColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         for i in 0...1 {
@@ -1626,7 +1626,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     switch angle/90.0{
                     case 0.0:
                         let numberString:NSString = "30"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(angle, width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1639,7 +1639,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     case 1.0:
                         
                         let numberString:NSString = "15"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(angle, width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1652,7 +1652,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     case 2.0:
                         
                         let numberString:NSString = "60"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(360.0/12.0*CGFloat(index), width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1665,7 +1665,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     case 3.0:
                         
                         let numberString:NSString = "45"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(360.0/12.0*CGFloat(index), width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1685,7 +1685,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     switch angle/180.0{
                     case 0.0:
                         let numberString:NSString = "1"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(angle, width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1698,7 +1698,7 @@ private class BGChronoClockFaceView : BGUtilityClockFaceView {
                     case 1.0:
                         
                         let numberString:NSString = "2"
-                        let numberSize = numberString.size(attributes: textFontAttributes)
+                        let numberSize = numberString.size(withAttributes: textFontAttributes)
                         let offsetPoint = self.trigSquareOffsetForAngle(angle, width: numberSize.width)
                         let x = offsetPoint.x
                         let y = offsetPoint.y
@@ -1895,12 +1895,12 @@ private class BG24HourClockFaceView: BGUtilityClockFaceView {
             
             let largeFont = self.faceFont!.withSize(self.bounds.size.height * percentFontSize*2.75)
             let largeTextFontAttributes = [
-                NSFontAttributeName: largeFont,
-                NSForegroundColorAttributeName: fontColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: largeFont,
+                NSAttributedString.Key.foregroundColor: fontColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             
-            let largeNumberSize = "     ".size(attributes: largeTextFontAttributes)
+            let largeNumberSize = "     ".size(withAttributes: largeTextFontAttributes)
             context?.rotate(by: self.degreesToRadians(angle))
             
             var largeNumberString:NSString
@@ -2334,9 +2334,9 @@ private class BGBigBenClockFaceView: BGClockFaceView
             let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
             let textFontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: fontColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: fontColor,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             
             let verticalBuffer = self.bounds.size.height*0.01
@@ -2386,7 +2386,7 @@ private class BGBigBenClockFaceView: BGClockFaceView
                 break
             }
             
-            let numberSize = numberString.size(attributes: textFontAttributes)
+            let numberSize = numberString.size(withAttributes: textFontAttributes)
             let point = CGPoint(x: -numberSize.width*0.5, y: self.bounds.size.height*0.08-verticalBuffer+numberSize.height)
             numberString.draw(at: point, withAttributes: textFontAttributes)
             
@@ -2567,12 +2567,12 @@ private class BGFlipClockFaceView: BGClockFaceView
         }
     }
     
-    var amPMFontAttributes:[String:AnyObject]{
+    var amPMFontAttributes:[NSAttributedString.Key: AnyObject]{
         get{
             return [
-                NSFontAttributeName: amPMFont,
-                NSForegroundColorAttributeName: self.textColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): amPMFont,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): self.textColor,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.paragraphStyle.rawValue): textStyle
             ]
             
         }
@@ -2586,12 +2586,12 @@ private class BGFlipClockFaceView: BGClockFaceView
         }
     }
     
-    var textFontAttributes:[String:AnyObject]{
+    var textFontAttributes:[NSAttributedString.Key:AnyObject]{
         get{
             return [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: self.textColor,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): font,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): self.textColor,
+                NSAttributedString.Key(rawValue: NSAttributedString.Key.paragraphStyle.rawValue): textStyle
             ]
 
         }
@@ -2652,7 +2652,7 @@ private class BGFlipClockFaceView: BGClockFaceView
         self.hourNumberView.frame = hourRect
         self.minuteNumberView.frame = minutesRect
         
-        let amSize = "PM".size(attributes: self.amPMFontAttributes)
+        let amSize = "PM".size(withAttributes: self.amPMFontAttributes)
         let amPMRect = CGRect(x: self.buffer * 2.0, y: self.bounds.size.height * 0.5 + self.squareHeight * 0.5 - amSize.height, width: amSize.width, height: amSize.height)
         self.amPMLabel.frame = amPMRect
         self.amPMLabel.adjustsFontSizeToFitWidth = true
@@ -2682,7 +2682,7 @@ private class BGFlipClockFaceView: BGClockFaceView
         self.hourNumberView.frame = hourRect
         self.minuteNumberView.frame = minutesRect
         
-        let amSize = "PM".size(attributes: amPMFontAttributes)
+        let amSize = "PM".size(withAttributes: amPMFontAttributes)
         let amPMRect = CGRect(x: buffer * 2.0, y: self.bounds.size.height * 0.5 + squareHeight * 0.5 - amSize.height, width: amSize.width, height: amSize.height)
         self.amPMLabel.frame = amPMRect
         self.amPMLabel.adjustsFontSizeToFitWidth = true
@@ -2704,7 +2704,7 @@ private class BGFlipClockFaceView: BGClockFaceView
         hourNumberView.frame = hourRect
         minuteNumberView.frame = minutesRect
         
-        let amSize = "PM".size(attributes: amPMFontAttributes)
+        let amSize = "PM".size(withAttributes: amPMFontAttributes)
         let amPMRect = CGRect(x: buffer * 2.0, y: self.bounds.size.height * 0.5 + squareHeight * 0.5 - amSize.height, width: amSize.width, height: amSize.height)
         self.amPMLabel.frame = amPMRect
     }
@@ -2750,7 +2750,7 @@ private class BGFlipClockFaceView: BGClockFaceView
             self.hourNumberView = newNumberView
             self.hour = newHour
             self.hourAnimating = false
-            self.bringSubview(toFront: self.amPMLabel)
+            self.bringSubviewToFront(self.amPMLabel)
         })
         
     }
@@ -2822,9 +2822,9 @@ private class BGFlipNumberView:UIView {
             let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.right
             let textFontAttributes = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: UIColor.gray,
-                NSParagraphStyleAttributeName: textStyle
+                NSAttributedString.Key.font: font,
+                NSAttributedString.Key.foregroundColor: UIColor.gray,
+                NSAttributedString.Key.paragraphStyle: textStyle
             ]
             let tempString = NSAttributedString(string: "00", attributes: textFontAttributes)
             tempString.draw(in: self.bounds)
@@ -2920,10 +2920,10 @@ private class BGMeltingClockFaceView: BGClockFaceView
         let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.center
         var textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
-        ] as [String : Any]
+            NSAttributedString.Key.font.rawValue: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
+            ] as! [NSAttributedString.Key : Any]
         
         let string12 = NSAttributedString(string: "12", attributes: textFontAttributes)
         string12.draw(at: CGPoint(x: self.bounds.size.width * 0.20, y: self.bounds.size.height*0.17))
@@ -2936,9 +2936,9 @@ private class BGMeltingClockFaceView: BGClockFaceView
         
         font = self.faceFont!.withSize(self.bounds.size.height * 0.12)
         textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         let string9 = NSAttributedString(string: "9", attributes: textFontAttributes)
@@ -2949,9 +2949,9 @@ private class BGMeltingClockFaceView: BGClockFaceView
         
         font = self.faceFont!.withSize(self.bounds.size.height * 0.16)
         textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         let string7 = NSAttributedString(string: "7", attributes: textFontAttributes)
@@ -2962,9 +2962,9 @@ private class BGMeltingClockFaceView: BGClockFaceView
         
         font = self.faceFont!.withSize(self.bounds.size.height * 0.20)
         textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         context?.restoreGState();
@@ -2986,9 +2986,9 @@ private class BGMeltingClockFaceView: BGClockFaceView
         
         font = self.faceFont!.withSize(self.bounds.size.height * 0.18)
         textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         context?.restoreGState();
@@ -3001,9 +3001,9 @@ private class BGMeltingClockFaceView: BGClockFaceView
         
         font = self.faceFont!.withSize(self.bounds.size.height * 0.12)
         textFontAttributes = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: self.textColor,
-            NSParagraphStyleAttributeName: textStyle
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: self.textColor,
+            NSAttributedString.Key.paragraphStyle: textStyle
         ]
         
         let string2 = NSAttributedString(string: "2", attributes: textFontAttributes)

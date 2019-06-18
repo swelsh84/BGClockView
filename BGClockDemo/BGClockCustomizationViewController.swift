@@ -46,7 +46,7 @@ class BGClockCustomizationViewController: UIViewController {
         super.viewDidLoad()
         self.tabBarController?.tabBar.tintColor = UIColor.black
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.settingsButton.setTitleTextAttributes([NSFontAttributeName:UIFont(name: "FontAwesome", size: 22.0)!], for: UIControlState())
+        self.settingsButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont(name: "FontAwesome", size: 22.0)!], for: UIControl.State())
         
         self.updateClock()
         
@@ -64,7 +64,7 @@ class BGClockCustomizationViewController: UIViewController {
         self.tabBarController?.tabBar.tintColor = UIColor.black
         self.tabBarController?.tabBar.isTranslucent = true
         UIApplication.shared.statusBarStyle = .default
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
     }
     
     func updateClock()

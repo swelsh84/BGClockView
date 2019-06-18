@@ -66,7 +66,7 @@ class ClockViewController: UIViewController {
             }
             self.navigationController?.navigationBar.tintColor = UIColor.black
             UIApplication.shared.statusBarStyle = .default
-            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         }
         else
         {
@@ -84,7 +84,7 @@ class ClockViewController: UIViewController {
             }
             self.navigationController?.navigationBar.tintColor = UIColor.white
             UIApplication.shared.statusBarStyle = .lightContent
-            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         }
     }
 

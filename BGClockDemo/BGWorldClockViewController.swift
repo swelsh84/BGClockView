@@ -38,9 +38,9 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
         super.viewDidLoad()
         self.tabBarController?.tabBar.tintColor = UIColor.black
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.settingsButton.setTitleTextAttributes([NSFontAttributeName:UIFont(name: "FontAwesome", size: 22.0)!], for: UIControlState())
+        self.settingsButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont(name: "FontAwesome", size: 22.0)!], for: UIControl.State())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.redrawMap), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.redrawMap), name: UIApplication.didBecomeActiveNotification, object: nil)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let timeZoneManager = appDelegate.timeZoneManager
@@ -81,7 +81,7 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
         self.tabBarController?.tabBar.tintColor = UIColor.black
         self.tabBarController?.tabBar.isTranslucent = true
         UIApplication.shared.statusBarStyle = .default
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -172,7 +172,7 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
         }
     }
     
-    func updateClocks()
+    @objc func updateClocks()
     {
         for var timeZone in self.timeZoneArray
         {
@@ -193,7 +193,7 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
         self.collectionView?.reloadData()
     }
     
-    func redrawMap()
+    @objc func redrawMap()
     {
         if self.lastMaskUpdate.timeIntervalSince(Date()) < -60 * 10 && self.dayMapImageView.layer.mask != nil
 
@@ -214,7 +214,7 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
         for index in 0..<self.sunsetPointArray.count
         {
             let coordinates = self.pointsDictionary["\(self.sunsetPointArray[index])"].string
-            let coordinatesArr = coordinates!.characters.split{$0 == " "}.map(String.init)
+            let coordinatesArr = coordinates!.split{$0 == " "}.map(String.init)
             let point = CGPoint(x: Double(coordinatesArr[0])!, y: Double(coordinatesArr[1])!)
             //print(point)
             let pointLeft = CGPoint(x: 0.0, y: self.dayMapImageView.bounds.size.height * 0.5)
@@ -227,7 +227,7 @@ class BGWorldClockViewController: UIViewController,UICollectionViewDataSource,UI
             let circleRect = CGRect(x: point.x - radius, y: point.y - radius, width: radius * 2.0, height: radius * 2.0)
             let circlePath = UIBezierPath(rect:circleRect)
             maskPath.append(circlePath)
-            self.view.bringSubview(toFront: self.dayMapImageView)
+            self.view.bringSubviewToFront(self.dayMapImageView)
         }
         DispatchQueue.main.async(execute: {
             let shapeMask = CAShapeLayer()

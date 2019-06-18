@@ -18,10 +18,10 @@ public extension String {
 //MARK: Parser
 open class CSwiftV {
     
-    open let columnCount: Int
-    open let headers: [String]
-    open let keyedRows: [[String: String]]?
-    open let rows: [[String]]
+    public let columnCount: Int
+    public let headers: [String]
+    public let keyedRows: [[String: String]]?
+    public let rows: [[String]]
     
     public init(String string: String, headers: [String]?, separator: String) {
         
@@ -114,8 +114,8 @@ func sanitizedStringMap(String string: String) -> String {
     let endsWithQuote = string.hasSuffix("\"")
     
     if startsWithQuote && endsWithQuote {
-        let startIndex = string.characters.index(string.startIndex, offsetBy: 1)
-        let endIndex = string.characters.index(string.endIndex, offsetBy: -1)
+        let startIndex = string.index(string.startIndex, offsetBy: 1)
+        let endIndex = string.index(string.endIndex, offsetBy: -1)
         let range = startIndex ..< endIndex
         let sanitizedField = string.substring(with: range)
         
